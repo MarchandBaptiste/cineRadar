@@ -4,3 +4,32 @@
   padding: 0;
   box-sizing: border-box;
 }
+body{
+  background-color: rgb(45, 45, 45);
+}
+
+header{
+  background-color: red;
+  padding: 20px;
+}
+
+.movie-card{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  background-color: grey;
+  margin: 20px;
+}
+
+.movie-card img{
+  height: auto;
+  width: 40%;
+}
+
+
+#loadMovies{
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
