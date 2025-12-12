@@ -6,19 +6,47 @@
     <title>CinéRadar</title>
     <script src="./assets/js/script.js" defer></script>
     <link rel="stylesheet" href="./assets/css/style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
   </head>
   <body>
     <header>
-      <input type="recherche">
+      <nav class="navbar">
+        <img src="./assets/img/logo.png" class="img-logo" alt="logo" />
+        <div class="navCenter">
+          <h1>CinéRadar</h1>
+          <div class="search">
+            <input type="search" />
+          </div>
+  
+          <div class="nav-links">
+            <ul>
+              <li><a href="">Films</a></li>
+              <li><a href="">Séries</a></li>
+              <li><a href="">Animés</a></li>
+              <li><a href="">Déjà vu</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <img
+          src="./assets/img/menu-burger.png"
+          class="menu-hamburger"
+          alt="menu"
+        />
+      </nav>
     </header>
-    <div id="filter-group">
-                <label for="genre-select">Filtrer par Genre :</label>
-                <select id="genre-select" disabled>
-                    <option value="">Genres...</option>
-                </select>
-    </div>
 
-    <div id="loadMovies"></div>
-
+    <main>
+      <div id="filter-group">
+        <label for="genre-select">Filtrer par Genre :</label>
+        <select id="genre-select" disabled>
+          <option value="">Genres...</option>
+        </select>
+      </div>
+      <div id="topTenMovies"></div>
+      <div id="topTenSerie"></div>
+      <div id="loadMovies"></div>
+      
+    </main>
   </body>
 </html>
