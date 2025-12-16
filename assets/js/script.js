@@ -52,10 +52,12 @@ selectElement.addEventListener("input", async (event) => {
     if (event.target.value === "") {
         selectMovies.innerHTML = "";
         topTenMoviesContainer.style.display = "block";
+        topTenSeriesContainer.style.display = "block";
         return;
     }
 
     topTenMoviesContainer.style.display = "none";
+    topTenSeriesContainer.style.display = "none";
     const moviesData = await byGenres(event.target.value);
     loadMovies(moviesData.results);
 });

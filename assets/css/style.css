@@ -23,7 +23,7 @@ body{
 }
 
 .img-logo {
-  width: 10%;
+  width: 30%;
   position: relative;
   z-index: 1003;
 }
@@ -147,6 +147,13 @@ h2{
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
+}
+
+footer{
+  text-align: center;
+  padding: 3rem;
+  background-color: black;
+  color: white;
 }
 
 @media (min-width: 1024px) {
