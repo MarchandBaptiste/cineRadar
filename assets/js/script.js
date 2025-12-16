@@ -6,10 +6,20 @@ menuBtn.addEventListener('click', () => {
     navBar.classList.toggle('open');
 });
 
-// ATTENTION DE PAS PUSH CA SUR GITHUB
-const API_KEY =
-    "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5NTc5NTU0ZjJjY2RkYWQ4ZmE0ZjE0NmM3NTE3ZjFhYiIsIm5iZiI6MTc2NDY4NjAzOS4zMTgsInN1YiI6IjY5MmVmOGQ3OTE4NTk3ZDVkNzM5OTM2MCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Nqb8PJ0fxYqZPOJIy-Zw_KrXNxUhwbjV6S841_cB5Fc";
-// 
+
+// vérif si la clé est déjà sauvegardée dans le navigateur
+let API_KEYUser = localStorage.getItem('tmdb_token');
+
+// existe pas on demande à l'utilisateur
+if (!API_KEYUser) {
+    API_KEYUser = prompt("Veuillez saisir votre Token d'accès (Bearer) TMDB :");
+    
+    // quelque chopse est saisi on sauvegarde pour la prochaine fois
+    if (API_KEYUser) {
+        localStorage.setItem('tmdb_token', API_KEYUser);
+    }
+}
+const API_KEY = API_KEYUser;
 
 let popularMovies = [];
 const selectElement = document.querySelector("#genre-select");

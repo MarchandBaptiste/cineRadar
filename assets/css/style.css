@@ -5,8 +5,18 @@
   box-sizing: border-box;
   font-family: "Arimo", sans-serif;
 }
+input {
+  appearance: none;
+  border-radius: 0;
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  box-shadow: none;
+}
+
 body{
-  background-color: #1C1C1C;
+  background-color: #141414;
 }
 
 /* nav */
@@ -16,7 +26,7 @@ body{
   background-color: #8B0000;
   padding: 20px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   overflow-x: hidden;
   z-index: 1003;
@@ -42,7 +52,7 @@ body{
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(255, 255, 255, 0.432);
+  background: rgba(255, 255, 255, 0.277);
   backdrop-filter: blur(6px);
   transform: translateX(100%);
   flex-direction: column;
@@ -74,15 +84,24 @@ body{
   text-decoration: none;
 }
 
-header.search {
+header.searchBar {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-
+  flex-wrap: nowrap;
+  flex-direction: column;
+  align-items: center;
+}
+.searchBar input {
+  width: 250px;
+  padding: 10px 14px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
 }
 
+
 main{
-  padding-top: 80px;
+  padding-top: 120px;
 }
 
 div#filter-group{
@@ -130,15 +149,21 @@ h2{
     border: 0px solid;
     border-radius: 20px;
     min-width: 250px;
-    max-width: 400px; 
+    max-width: 350px; 
     width: 90%; 
     text-align: center;
+    overflow: hidden;
 }
 
 .movie-card img{
     height: auto;
     width: 100%; 
     border-radius: 5px;
+    transition: transform 0.5s ease;
+}
+
+.movie-card img:hover{
+  transform: scale(1.1);
 }
 
 #loadMovies{
@@ -165,9 +190,7 @@ footer{
     display: none;
   }
 
-  
-  
   main {
-    padding-top: 200px;
+    padding-top: 100px;
   }
 }
