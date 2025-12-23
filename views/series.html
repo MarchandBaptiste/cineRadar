@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CinéRadar</title>
-    <script src="./assets/js/script.js" defer></script>
-    <link rel="stylesheet" href="./assets/css/style.css" />
+    <title>CinéRadar - Séries</title>
+    <script src="../assets/js/script.js" defer></script>
+    <link rel="stylesheet" href="../assets/css/style.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&display=swap"
       rel="stylesheet"
@@ -13,21 +13,21 @@
   </head>
   <body>
     <header>
-      <h1>CINÉ-RADAR</h1>
+      <h1>SÉRIES</h1>
       <div class="searchBar">
         <input type="text" placeholder="Rechercher quelque chose..." />
       </div>
       <nav class="navbar">
         <div class="nav-links">
           <ul>
-            <li><a href="./index.html">Home</a></li>
-            <li><a href="./views/movies.html">Films</a></li>
-            <li><a href="./views/series.html">Séries</a></li>
-            <li><a href="./views/alreadySeen.html">Favoris</a></li>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="./movies.html">Films</a></li>
+            <li><a href="./series.html">Séries</a></li>
+            <li><a href="./alreadySeen.html">Favoris</a></li>
           </ul>
         </div>
         <img
-          src="./assets/img/menu-burger.png"
+          src="../assets/img/menu-burger.png"
           class="menu-hamburger"
           alt="menu"
         />
@@ -35,13 +35,18 @@
     </header>
 
     <main>
-      <div id="topTenMovies"></div>
-      <div id="topTenSerie"></div>
+      <div id="filter-group">
+        <label for="genre-selectSerie">Filtrer par Genre :</label>
+        <select id="genre-selectSerie" disabled>
+          <option value="">Genres...</option>
+        </select>
+      </div>
+      <div id="loadSeries"></div>
     </main>
 
     <footer>
       <p>Site réaliser pour apprendre la gestion d'API (ici avec TMDB)</p>
-      <img src="./assets/img/bandeMagneto.png" alt="" class="fond" />
+      <img src="../assets/img/bandeMagneto.png" alt="" class="fond" />
     </footer>
   </body>
 </html>

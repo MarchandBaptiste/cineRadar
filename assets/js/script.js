@@ -1,172 +1,215 @@
-const menuBtn = document.querySelector('.menu-hamburger');
-const navLinks = document.querySelector('.nav-links');
-const navBar = document.querySelector('.navbar')
-menuBtn.addEventListener('click', () => {
-    navLinks.classList.toggle('open');
-    navBar.classList.toggle('open');
-});
+// --- GESTION DU MENU ---
+const menuBtn = document.querySelector(".menu-hamburger");
+const navLinks = document.querySelector(".nav-links");
+const navBar = document.querySelector(".navbar");
 
+if (menuBtn) {
+  menuBtn.addEventListener("click", () => {
+    navLinks.classList.toggle("open");
+    navBar.classList.toggle("open");
+  });
+}
 
-// vérif si la clé est déjà sauvegardée dans le navigateur
-let API_KEYUser = localStorage.getItem('tmdb_token');
+// --- GESTION API KEY ---
+let API_KEYUser = localStorage.getItem("tmdb_token");
 
-// existe pas on demande à l'utilisateur
 if (!API_KEYUser) {
-    API_KEYUser = prompt("Veuillez saisir votre Token d'accès (Bearer) TMDB :");
-    
-    // quelque chopse est saisi on sauvegarde pour la prochaine fois
-    if (API_KEYUser) {
-        localStorage.setItem('tmdb_token', API_KEYUser);
-    }
+  API_KEYUser = prompt("Veuillez saisir votre Token d'accès (Bearer) TMDB :");
+  if (API_KEYUser) {
+    localStorage.setItem("tmdb_token", API_KEYUser);
+  }
 }
 const API_KEY = API_KEYUser;
 
-let popularMovies = [];
-const selectElement = document.querySelector("#genre-select");
-const selectMovies = document.querySelector("#loadMovies");
-const topTenMoviesContainer = document.querySelector("#topTenMovies");
-const topTenSeriesContainer = document.querySelector("#topTenSerie");
-
 let options = {
-    headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + API_KEY,
-    },
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + API_KEY,
+  },
 };
 
-const getMovies = async () => {
-    const promise = await fetch(
-        "https://api.themoviedb.org/3/genre/movie/list?language=fr",
-        options
+// --- SÉLECTEURS DOM ---
+const selectGenreMovies = document.querySelector("#genre-select");
+const selectGenreSeries = document.querySelector("#genre-selectSerie");
+const containerMovies = document.querySelector("#loadMovies");
+const containerSeries = document.querySelector("#loadSeries");
+
+// --- FONCTIONS FETCH (API) ---
+
+// Récupérer les genres (Films)
+const getMoviesGenres = async () => {
+  try {
+    const res = await fetch("https://api.themoviedb.org/3/genre/movie/list?language=fr", options);
+    return await res.json();
+  } catch (error) {
+    console.error("Erreur Genres Films:", error);
+  }
+};
+
+const getSeriesGenres = async () => {
+  try {
+    const res = await fetch("https://api.themoviedb.org/3/genre/tv/list?language=fr", options);
+    return await res.json();
+  } catch (error) {
+    console.error("Erreur Genres Séries:", error);
+  }
+};
+
+async function getMoviesByGenre(genreId) {
+  try {
+    const res = await fetch(
+      "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=fr-FR&page=1&sort_by=popularity.desc&with_genres=" + genreId,
+      options
     );
-
-    return await promise.json();
-};
-
-const loadGenres = async () => {
-    popularMovies = await getMovies();
-    selectElement.innerHTML = '<option value="">Genres...</option>';
-    if (popularMovies && popularMovies.genres) {
-        popularMovies.genres.forEach((genre) => {
-            selectElement.innerHTML += `<option value="${genre.id}">${genre.name}</option>`;
-        });
-        selectElement.removeAttribute("disabled");
-    } else {
-        console.error("Erreur lors du chargement des genres : L'API n'a pas retourné les données attendues.");
-    }
-};
-
-loadGenres();
-
-selectElement.addEventListener("input", async (event) => {
-    if (event.target.value === "") {
-        selectMovies.innerHTML = "";
-        topTenMoviesContainer.style.display = "block";
-        topTenSeriesContainer.style.display = "block";
-        return;
-    }
-
-    topTenMoviesContainer.style.display = "none";
-    topTenSeriesContainer.style.display = "none";
-    const moviesData = await byGenres(event.target.value);
-    loadMovies(moviesData.results);
-});
-
-async function byGenres(value) {
-    const listMovies = await fetch(
-        "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=fr-FR&page=1&sort_by=popularity.desc&with_genres=" +
-            value,
-        options
-    );
-    return await listMovies.json();
+    return await res.json();
+  } catch (error) {
+    console.error("Erreur Recherche Films:", error);
+  }
 }
 
-function createMovieCard(movie) {
-    const posterUrl = movie.poster_path
-        ? `https://image.tmdb.org/t/p/w300${movie.poster_path}`
-        : "https://via.placeholder.com/300x450?text=Pas+d'Image";
-    const movieElement = document.createElement("div");
-    movieElement.classList.add("movie-card");
+async function getSeriesByGenre(genreId) {
+  try {
+    const res = await fetch(
+      "https://api.themoviedb.org/3/discover/tv?include_adult=false&include_video=false&language=fr-FR&page=1&sort_by=popularity.desc&with_genres=" + genreId,
+      options
+    );
+    return await res.json();
+  } catch (error) {
+    console.error("Erreur Recherche Séries:", error);
+  }
+}
 
-    movieElement.innerHTML = `
-        <img src="${posterUrl}" alt="Affiche de ${movie.title}" />
+const getPopularMovies = async () => {
+  try {
+    const res = await fetch(
+      "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=fr-FR&page=1&sort_by=popularity.desc",
+      options
+    );
+    return await res.json();
+  } catch (error) {
+    console.error("Erreur Init Movies:", error);
+  }
+};
+
+const getPopularSeries = async () => {
+  try {
+    const res = await fetch(
+      "https://api.themoviedb.org/3/discover/tv?language=fr-FR&page=1&sort_by=popularity.desc",
+      options
+    );
+    return await res.json();
+  } catch (error) {
+    console.error("Erreur Init Series:", error);
+  }
+};
+
+// --- FONCTIONS D'AFFICHAGE ---
+
+function createMovieCard(movie) {
+  const posterUrl = movie.poster_path
+    ? `https://image.tmdb.org/t/p/w300${movie.poster_path}`
+    : "https://via.placeholder.com/300x450?text=Pas+d'Image";
+  
+  const div = document.createElement("div");
+  div.classList.add("movie-card");
+  div.innerHTML = `
+        <img src="${posterUrl}" alt="${movie.title}" />
         <h3>${movie.title}</h3>
         <p>Note : ${movie.vote_average.toFixed(1)}/10</p>
-        <p>${
-            movie.release_date
-                ? movie.release_date.substring(0, 4)
-                : "Date inconnue"
-        }</p>
+        <p>${movie.release_date ? movie.release_date.substring(0, 4) : "Date inconnue"}</p>
     `;
-    return movieElement;
+  return div;
 }
 
 function createSerieCard(serie) {
-    const posterUrl = serie.poster_path
-        ? `https://image.tmdb.org/t/p/w300${serie.poster_path}`
-        : "https://via.placeholder.com/300x450?text=Pas+d'Image";
-    const serieElement = document.createElement("div");
-    serieElement.classList.add("movie-card");
-    serieElement.innerHTML = `
-        <img src="${posterUrl}" alt="Affiche de ${serie.name}" />
+  const posterUrl = serie.poster_path
+    ? `https://image.tmdb.org/t/p/w300${serie.poster_path}`
+    : "https://via.placeholder.com/300x450?text=Pas+d'Image";
+    
+  const div = document.createElement("div");
+  div.classList.add("movie-card");
+  div.innerHTML = `
+        <img src="${posterUrl}" alt="${serie.name}" />
         <h3>${serie.name}</h3>
         <p>Note : ${serie.vote_average.toFixed(1)}/10</p>
-        <p>${
-            serie.first_air_date
-                ? serie.first_air_date.substring(0, 4)
-                : "Date inconnue"
-        }</p>
+        <p>${serie.first_air_date ? serie.first_air_date.substring(0, 4) : "Date inconnue"}</p>
     `;
-    return serieElement;
+  return div;
 }
 
-function loadMovies(movies) {
-    selectMovies.innerHTML = "";
-    movies.forEach((movie) => {
-        selectMovies.appendChild(createMovieCard(movie));
-    });
+function renderMovies(movies) {
+  if (!containerMovies) return;
+  containerMovies.innerHTML = "";
+  movies.forEach((movie) => {
+    containerMovies.appendChild(createMovieCard(movie));
+  });
 }
 
-function loadTopTenMovies(movies) {
-    topTenMoviesContainer.innerHTML = "<h2>Top 10 des Films Populaires</h2>";
-    const topTenList = document.createElement("div");
-    topTenList.classList.add("top-ten-list");
-    movies.forEach((movie) => {
-        topTenList.appendChild(createMovieCard(movie));
-    });
-    topTenMoviesContainer.appendChild(topTenList);
+function renderSeries(series) {
+  if (!containerSeries) return;
+  containerSeries.innerHTML = "";
+  series.forEach((serie) => {
+    containerSeries.appendChild(createSerieCard(serie));
+  });
 }
 
-function loadTopTenSeries(series) {
-    topTenSeriesContainer.innerHTML = "<h2>Top 10 des Séries Populaires</h2>";
-    const topTenList = document.createElement("div");
-    topTenList.classList.add("top-ten-list");
-    series.forEach((serie) => {
-        topTenList.appendChild(createSerieCard(serie));
-    });
-    topTenSeriesContainer.appendChild(topTenList);
+if (containerMovies && selectGenreMovies) {
+  const initMovies = async () => {
+    const data = await getPopularMovies();
+    if (data && data.results) renderMovies(data.results);
+  };
+
+  const loadGenres = async () => {
+    const data = await getMoviesGenres();
+    selectGenreMovies.innerHTML = '<option value="">Tous</option>';
+    if (data && data.genres) {
+      data.genres.forEach((genre) => {
+        selectGenreMovies.innerHTML += `<option value="${genre.id}">${genre.name}</option>`;
+      });
+      selectGenreMovies.removeAttribute("disabled");
+    }
+  };
+
+  initMovies();
+  loadGenres();
+
+  selectGenreMovies.addEventListener("input", async (event) => {
+    const genreId = event.target.value;
+    if (genreId === "") {
+      initMovies();
+    } else {
+      const data = await getMoviesByGenre(genreId);
+      if (data && data.results) renderMovies(data.results);
+    }
+  });
 }
 
-const getInitialMovies = async () => {
-    const response = await fetch(
-        "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=fr-FR&page=1&sort_by=popularity.desc",
-        options
-    );
-    const data = await response.json();
-    const top10Movies = data.results.slice(0, 10);
-    loadTopTenMovies(top10Movies);
-};
+if (containerSeries && selectGenreSeries) {
+  const initSeries = async () => {
+    const data = await getPopularSeries();
+    if (data && data.results) renderSeries(data.results);
+  };
+  const loadGenresSeries = async () => {
+    const data = await getSeriesGenres();
+    selectGenreSeries.innerHTML = '<option value="">Tous</option>';
+    if (data && data.genres) {
+      data.genres.forEach((genre) => {
+        selectGenreSeries.innerHTML += `<option value="${genre.id}">${genre.name}</option>`;
+      });
+      selectGenreSeries.removeAttribute("disabled");
+    }
+  };
 
-getInitialMovies();
+  initSeries();
+  loadGenresSeries();
 
-const getInitialSeries = async () => {
-    const response = await fetch(
-        "https://api.themoviedb.org/3/discover/tv?language=fr-FR&page=1&sort_by=popularity.desc",
-        options
-    );
-    const data = await response.json();
-    const top10Series = data.results.slice(0, 10);
-    loadTopTenSeries(top10Series);
-};
-
-getInitialSeries();
+  selectGenreSeries.addEventListener("input", async (event) => {
+    const genreId = event.target.value;
+    if (genreId === "") {
+      initSeries();
+    } else {
+      const data = await getSeriesByGenre(genreId);
+      if (data && data.results) renderSeries(data.results);
+    }
+  });
+}
