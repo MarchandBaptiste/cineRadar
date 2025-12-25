@@ -192,6 +192,8 @@ h2 {
   overflow: hidden;
   transition: transform 0.5s ease;
   transform: scale(0.9);
+  scroll-snap-align: center;
+  opacity: 0.9;
 }
 
 .movie-card img {
@@ -202,6 +204,7 @@ h2 {
 
 .movie-card:hover {
   transform: scale(1);
+  opacity: 1;
 }
 
 .movie-info {
@@ -279,6 +282,7 @@ input:checked + .slider:before {
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   gap: 20px;
+  justify-content: center;
   padding: 20px;
 }
 #favoriteMovies::-webkit-scrollbar,
@@ -306,13 +310,9 @@ footer {
   main {
     padding-top: 100px;
   }
-}
-
-#favoriteMovies,
-#favoriteSeries {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 20px;
-  padding: 20px;
+  #favoriteMovies,
+  #favoriteSeries {
+    flex-wrap: wrap;
+    overflow-x: visible;
+  }
 }
