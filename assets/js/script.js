@@ -84,6 +84,7 @@ const getSeriesByGenre = async (id) =>
 
 //  CARTE FILM
 function createMovieCard(movie) {
+  // ternaire pour l'image
   const poster = movie.poster_path
     ? `https://image.tmdb.org/t/p/w300${movie.poster_path}`
     : "https://via.placeholder.com/300x450?text=Pas+d'Image";
@@ -247,12 +248,13 @@ function loadTopTenSeries(series) {
 }
 
 //  INITIALISATION
+// Vérifie si on est sur une page qui doit afficher le top 10 films
 if (topTenMoviesContainer) {
   getPopularMovies().then((data) =>
     loadTopTenMovies(data.results.slice(0, 10))
   );
 }
-
+// Vérifie si on est sur la page principale des films
 if (containerMovies && selectGenreMovies) {
   getPopularMovies().then((data) => renderMovies(data.results));
   getMoviesGenres().then((data) => {
@@ -265,21 +267,22 @@ if (containerMovies && selectGenreMovies) {
 
   selectGenreMovies.addEventListener("input", async (e) => {
     if (e.target.value === "") {
-      const data = await getPopularMovies();
+      const data = await getPopularMovies(); //si tous alors charge les pouliare 
       renderMovies(data.results);
     } else {
-      const data = await getMoviesByGenre(e.target.value);
+      const data = await getMoviesByGenre(e.target.value); //sinon charge par genre
       renderMovies(data.results);
     }
   });
 }
 
+// Vérifie si on est sur une page qui doit afficher le top 10 séries
 if (topTenSeriesContainer) {
   getPopularSeries().then((data) =>
     loadTopTenSeries(data.results.slice(0, 10))
   );
 }
-
+// Vérifie si on est sur la page principale des séries
 if (containerSeries && selectGenreSeries) {
   getPopularSeries().then((data) => renderSeries(data.results));
   getSeriesGenres().then((data) => {
