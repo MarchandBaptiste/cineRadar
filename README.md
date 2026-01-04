@@ -32,6 +32,6 @@ Gestion des Assets : Traitement des chemins d'images (posters et backdrops) four
 
 Validation des Requêtes : Test de la gestion des erreurs (clés API invalides, limites de débit, résultats vides).
 
-Performance : Optimisation du temps de chargement des images via le lazy loading.
+Performance : Optimisation du temps de chargement.
 
 Compatibilité : Vérification du rendu sur les navigateurs majeurs (Chrome, Firefox, Safari).
