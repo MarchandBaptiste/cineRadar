@@ -1,6 +1,8 @@
 # CineRadar - Explorateur de Films & Séries
 
-![Ce projet est une application web permettant d'explorer le catalogue mondial de films et de séries en temps réel, en exploitant les données de l'API TMDB ([The movie Database](https://www.themoviedb.org/)).](./assets/img/Capture%20d'écran%202026-01-04%20132454.png)
+![Aperçu de l'application CineRadar](./assets/img/Capture%20d'écran%202026-01-04%20132454.png)
+
+Ce projet est une application web permettant d'explorer le catalogue mondial de films et de séries en temps réel, en exploitant les données de l'API [TMDB (The Movie Database)](https://www.themoviedb.org/).
 
 ## 🚀 Fonctionnalités
 
@@ -35,3 +37,5 @@ Validation des Requêtes : Test de la gestion des erreurs (clés API invalides, 
 Performance : Optimisation du temps de chargement des images via le lazy loading.
 
 Compatibilité : Vérification du rendu sur les navigateurs majeurs (Chrome, Firefox, Safari).
+
+[Ciné Radar](https://marchandbaptiste.github.io/cineRadar/)
