@@ -113,8 +113,9 @@ function createMovieCard(movie) {
     }</p>
   `;
 
-  const imageInitiale = "https://img.icons8.com/ios/50/ff0000/like--v1.png";
-  const imageSurvole = "https://img.icons8.com/ios-filled/50/ff0000/like--v1.png";
+  const imageInitiale =
+    "https://img.icons8.com/ios-filled/50/ff0000/like--v1.png";
+  const imageSurvole = "https://img.icons8.com/ios/50/ff0000/like--v1.png";
 
   const image = document.createElement("img");
   image.style.cursor = "pointer";
@@ -179,8 +180,9 @@ function createSerieCard(serie) {
     }</p>
   `;
 
-  const imageInitiale = "https://img.icons8.com/ios/50/ff0000/like--v1.png";
-  const imageSurvole = "https://img.icons8.com/ios-filled/50/ff0000/like--v1.png";
+  const imageInitiale =
+    "https://img.icons8.com/ios-filled/50/ff0000/like--v1.png";
+  const imageSurvole = "https://img.icons8.com/ios/50/ff0000/like--v1.png";
 
   const image = document.createElement("img");
   image.style.cursor = "pointer";
