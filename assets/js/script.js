@@ -11,21 +11,8 @@ if (menuBtn) {
 }
 
 //  API KEY
-let API_KEYUser = localStorage.getItem("tmdb_token");
+let API_KEYUser = process.env.API_KEY;
 
-if (!API_KEYUser) {
-  API_KEYUser = prompt("Veuillez saisir votre Token d'accès (Bearer) TMDB :");
-  if (API_KEYUser) {
-    localStorage.setItem("tmdb_token", API_KEYUser);
-  }
-}
-
-const options = {
-  headers: {
-    "Content-Type": "application/json",
-    Authorization: "Bearer " + API_KEYUser,
-  },
-};
 
 //  FAVORIS UTILS
 function getFavorites(key) {
@@ -113,8 +100,7 @@ function createMovieCard(movie) {
     }</p>
   `;
 
-  const imageInitiale =
-    "https://img.icons8.com/ios-filled/50/ff0000/like--v1.png";
+  const imageInitiale = "https://img.icons8.com/ios-filled/50/ff0000/like--v1.png";
   const imageSurvole = "https://img.icons8.com/ios/50/ff0000/like--v1.png";
 
   const image = document.createElement("img");
