@@ -14,6 +14,14 @@ if (menuBtn) {
 let API_KEYUser = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5NTc5NTU0ZjJjY2RkYWQ4ZmE0ZjE0NmM3NTE3ZjFhYiIsIm5iZiI6MTc2NDY4NjAzOS4zMTgsInN1YiI6IjY5MmVmOGQ3OTE4NTk3ZDVkNzM5OTM2MCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Nqb8PJ0fxYqZPOJIy-Zw_KrXNxUhwbjV6S841_cB5Fc";
 
 
+
+const options = {
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: "Bearer " + API_KEYUser,
+  },
+};
+
 //  FAVORIS UTILS
 function getFavorites(key) {
   return JSON.parse(localStorage.getItem(key)) || [];
